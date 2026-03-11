@@ -1,30 +1,50 @@
 from ex0 import CreatureCard
+from typing import Any
 
 
 def main() -> None:
-    player = {
-        'name': 'Adri',
-        'mana': 6
+    game_state: dict[str, dict[Any, Any]] = {
+        'Adri': {
+            'mana': 6,
+            'battlefield': [],
+            'hand': []
+        },
+        'Luc': {
+            'mana': 6,
+            'battlefield': [],
+            'hand': []
+        },
     }
     print("=== DataDeck Card Foundation ===\n\n"
           "Testing Abstract Base Class Design:\n")
 
     dragon = CreatureCard('Fire Dragon', 5, 'Legendary', 7, 5)
     goblin = CreatureCard('Goblin Warrior', 2, 'Common', 1, 3)
+    game_state['Luc']['battlefield'].append(goblin)
     print(f"CreatureCard Info:\n{dragon.get_card_info()}")
 
     print(
             f'\nPlaying {dragon.name} (cost: {dragon.cost}) '
-            f'with {player["mana"]} mana available:'
+            f'with {game_state["Adri"]["mana"]} mana available:'
         )
-    dragon.play(player)
+    result = dragon.play(game_state['Adri'])
+    if result.get('playable'):
+        print("Playable: True")
+        print(f"Play result: {result}")
+    else:
+        print("Playable: False")
+    game_state['Adri']['battlefield'].append(dragon)
     dragon.attack_target(goblin)
 
     print(
             f'\nPlaying {dragon.name} (cost: {dragon.cost}) '
-            f'with {player["mana"]} mana available:'
+            f'with {game_state["Adri"]["mana"]} mana available:'
         )
-    print(f'Play result: {dragon.play(player)}')
+    result = dragon.play(game_state['Adri'])
+    if result.get('playable'):
+        print(f"Play result: {result}")
+    else:
+        print("Playable: False")
     print("\nAbstract pattern successfully demonstrated!")
 
 

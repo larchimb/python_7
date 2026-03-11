@@ -25,9 +25,9 @@ class CreatureCard(Card):
         dic_play['card_played'] = self.name
         dic_play['mana_used'] = self.cost
         if not self.is_playable(game_state['mana']):
-            print("Playable: False")
+            dic_play['playable'] = False
             return dic_play
-        print("Playable: True")
+        dic_play['playable'] = True
         dic_play['effect'] = 'Creature summoned to battlefield'
         game_state['mana'] -= self.cost
         return dic_play
