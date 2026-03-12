@@ -16,9 +16,9 @@ class CardFactory(ABC):
         pass
 
     @abstractmethod
-    def create_themed_deck(self, size: int) -> dict:
+    def create_themed_deck(self, size: int) -> dict[str, Card]:
         pass
 
     @abstractmethod
-    def get_supported_types(self) -> dict:
+    def get_supported_types(self) -> dict[str, list[str]]:
         pass

@@ -1,21 +1,20 @@
 from .AggressiveStrategy import AggressiveStrategy
-from typing import Any
+from .GameEngine import GameEngine
+from .FantasyCardFactory import FantasyCardFactory
+
 
 def main() -> None:
-    game_state: dict[str, dict[Any, Any]] = {
-        'Adri': {
-            'mana': 6,
-            'battlefield': [],
-            'hand': []
-        },
-        'Luc': {
-            'mana': 6,
-            'battlefield': [],
-            'hand': []
-        },
-    }
-    test = AggressiveStrategy()
-    print(test.get_strategy_name())
+
+    engine = GameEngine()
+    factory = FantasyCardFactory()
+    strategy = AggressiveStrategy()
+    print('=== DataDeck Game Engine ===\n')
+    engine.configure_engine(factory, strategy)
+    print('Simulating aggressive turn...')
+    print(f'{engine.simulate_turn()}\n')
+    print('Game report\n'
+          f'{engine.get_engine_status()}\n')
+    print('Abstract Factory + Strategy Pattern: Maximum flexibility achieved!')
 
 
 if __name__ == '__main__':

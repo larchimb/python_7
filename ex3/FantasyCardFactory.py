@@ -70,7 +70,7 @@ class FantasyCardFactory(CardFactory):
             name = random.choice(spell_damage)
             cost = random.randint(2, 8)
 
-        number = random. randint(0, 100)
+        number = random.randint(0, 100)
         if number < 60:
             rarity = 'common'
         elif number < 90:
@@ -102,7 +102,7 @@ class FantasyCardFactory(CardFactory):
 
     def create_themed_deck(self, size: int) -> dict[str, Card]:
         deck: dict[str, Card] = {}
-        for i in range(size):
+        while len(deck) < size:
             nb = random.randint(0, 3)
             if nb == 0:
                 card = self.create_artifact()
@@ -110,7 +110,8 @@ class FantasyCardFactory(CardFactory):
                 card = self.create_spell()
             else:
                 card = self.create_creature()
-            deck[f'{card.name}'] = card
+            if card.name not in deck:
+                deck[f'{card.name}'] = card
         return deck
 
     def get_supported_types(self) -> dict[str, list[str]]:
