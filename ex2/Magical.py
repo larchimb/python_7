@@ -1,9 +1,14 @@
 from abc import abstractmethod, ABC
 from typing import Any
 from ex0 import CreatureCard
+from ex1 import SpellCard
 
 
 class Magical(ABC):
+
+    def __init__(self, mana: int, spell_list: list[SpellCard]) -> None:
+        self.mana = mana
+        self.spells = spell_list
 
     @abstractmethod
     def cast_spell(self, spell_name: str, targets: list[CreatureCard]

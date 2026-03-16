@@ -12,11 +12,9 @@ class EliteCard(Card, Magical, Combatable):
         mana: int, spell_list: list[SpellCard]
     ) -> None:
         super().__init__(name, cost, rarity)
-        self.attack_power: int = attack
-        self.health: int = health
+        Combatable.__init__(self, attack, health)
+        Magical.__init__(self, mana, spell_list)
         self.type = 'Elite Card'
-        self.mana = mana
-        self.spells: list[SpellCard] = spell_list
         self.dic: dict[str, Union[str, int]] = {}
         self.dic['name'] = self.name
         self.dic['health'] = self.health
@@ -34,7 +32,7 @@ class EliteCard(Card, Magical, Combatable):
         game_state['mana'] -= self.cost
         return dic_play
 
-    def attack(self, target: CreatureCard) -> dict[str, Union[int, str]]:
+    def attack(self, target: Combatable) -> dict[str, Union[int, str]]:
         dic_att: dict[str, Union[int, str]] = {}
         dic_att['attacker'] = self.name
         dic_att['target'] = target.name
@@ -65,7 +63,7 @@ class EliteCard(Card, Magical, Combatable):
         return dic_combat_stat
 
     def cast_spell(
-        self, spell_name: str, targets: list[CreatureCard]
+        self, spell_name: str, targets: list[Combatable]
     ) -> dict[str, Union[int, str, list[str]]]:
         dic_spell: dict[str, Union[str, int, list[str]]] = {}
         spell: SpellCard = SpellCard('None', 0, 'commun', 'damage')
