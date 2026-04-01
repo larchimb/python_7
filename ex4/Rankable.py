@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class Rankable(ABC):
     @abstractmethod
     def calculate_rating(self) -> int:
@@ -14,5 +15,5 @@ class Rankable(ABC):
         pass
 
     @abstractmethod
-    def get_rank_info(self) -> dict:
+    def get_rank_info(self) -> dict[str, int]:
         pass

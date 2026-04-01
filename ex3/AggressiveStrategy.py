@@ -1,5 +1,8 @@
 from typing import Any, Union
-from ex1 import Card, SpellCard, ArtifactCard, CreatureCard
+from ex0.Card import Card
+from ex0.CreatureCard import CreatureCard
+from ex1.SpellCard import SpellCard
+from ex1.ArtifactCard import ArtifactCard
 from .GameStrategy import GameStrategy
 
 

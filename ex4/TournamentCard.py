@@ -1,11 +1,16 @@
-from ex0 import Card, CreatureCard, Rarity
-from ex2 import Combatable
-from .Rankable import Rankable
+from ex0.Card import Card
+from ex2.Combatable import Combatable
+from ex4.Rankable import Rankable
 from typing import Union, Any
 
 
 class TournamentCard(Card, Combatable, Rankable):
-    def __init__(self, name: str, cost: int, rarity: Rarity, attack: int, health: int) -> None:
+    def __init__(self,
+                 name: str,
+                 cost: int,
+                 rarity: str,
+                 attack: int,
+                 health: int) -> None:
         super().__init__(name, cost, rarity)
         self.attack_power = attack
         self.health = health
@@ -17,24 +22,28 @@ class TournamentCard(Card, Combatable, Rankable):
 
     def calculate_rating(self) -> int:
         self.rate += self.cost * self.health * self.attack_power * 10
-        if self.rarity == "common":
+        if self.rarity == 'common':
             self.rate += 50
-        elif self.rarity == "rare":
+        elif self.rarity == 'rare':
             self.rate += 100
-        elif self.rarity == "legendary":
+        elif self.rarity == 'legendary':
             self.rate += 200
         return self.rate
-    
+
     def update_wins(self, wins: int) -> None:
-        self.wins += 1
+        self.wins += wins
 
     def update_losses(self, losses: int) -> None:
-        self.losses += 1
+        self.losses += losses
 
-    def get_rank_info(self) -> dict:
-        pass
-    
-    def attack(self, target: 'TournamentCard') -> dict[str, Union[int, str]]:
+    def get_rank_info(self) -> dict[str, int]:
+        return {
+            'rating': self.rate,
+            'wins': self.wins,
+            'losses': self.losses
+            }
+
+    def attack(self, target: Any) -> dict[str, Union[int, str]]:
         dic_att: dict[str, Union[int, str]] = {}
         dic_att['attacker'] = self.name
         dic_att['target'] = target.name
@@ -42,7 +51,7 @@ class TournamentCard(Card, Combatable, Rankable):
         dic_att['combat_type'] = 'melee'
         target.defend(self.attack_power)
         if target.health <= 0:
-            self.update_wins(self)
+            self.update_wins(1)
         return dic_att
 
     def defend(self, incoming_damage: int) -> dict[str, Union[int, str]]:
@@ -55,7 +64,7 @@ class TournamentCard(Card, Combatable, Rankable):
         self.health -= int(dic_def['damage_taken'])
         if self.health <= 0:
             dic_def['still_alive'] = False
-            self.update_losses(self)
+            self.update_losses(1)
         else:
             dic_def['still_alive'] = True
         return dic_def
@@ -64,6 +73,7 @@ class TournamentCard(Card, Combatable, Rankable):
         dic_combat_stat: dict[str, Union[str, int]] = {}
         dic_combat_stat['remaining_health'] = self.health
         dic_combat_stat['damage_done'] = self.attack_power
+        return dic_combat_stat
 
     def play(self, game_state: dict[Any, Any]) -> dict[str, Union[int, str]]:
         dic_play: dict[str, Union[int, str]] = {}

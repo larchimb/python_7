@@ -1,14 +1,17 @@
-from ex1 import CreatureCard, SpellCard
-from ex2 import EliteCard
+from ex0.CreatureCard import CreatureCard
+from ex1.SpellCard import SpellCard
+from ex2.EliteCard import EliteCard
 
 
 def main() -> None:
-    fireball = SpellCard('Fireball', 3, 'commun', 'damage')
+    fireball = SpellCard('Fireball', 3, 'common', 'damage')
     spells = [
         fireball
     ]
-    firedragon = CreatureCard('Fire Dragon', 5, 'rare', 7, 5)
-    goblin = CreatureCard('Goblin', 2, 'commun', 1, 2)
+    firedragon: CreatureCard = (
+        CreatureCard('Fire Dragon', 5, 'rare', 7, 5)
+        )
+    goblin: CreatureCard = CreatureCard('Goblin', 2, 'common', 1, 2)
     arcanewarrior = EliteCard('Arcane Warrior',
                               6, 'legendary', 4, 7, 4, spells)
 

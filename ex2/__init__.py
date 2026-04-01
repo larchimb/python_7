@@ -1,7 +1,7 @@
-from ex0 import Card
-from ex1 import SpellCard
-from .Magical import Magical
-from .Combatable import Combatable
-from .EliteCard import EliteCard
+from ex0.Card import Card
+from ex1.SpellCard import SpellCard
+from ex2.Magical import Magical
+from ex2.Combatable import Combatable
+from ex2.EliteCard import EliteCard
 
 __all__ = ['Card', 'Magical', 'Combatable', 'SpellCard', 'EliteCard']

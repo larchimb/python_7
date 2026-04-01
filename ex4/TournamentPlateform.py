@@ -1,27 +1,31 @@
-from .TournamentCard import TournamentCard
+from ex4.TournamentCard import TournamentCard
 import collections
-import random 
+import random
 from typing import Union
+
 
 class TournamentPlateform:
     def __init__(self) -> None:
         self.match = 0
         self.cards: dict[str, TournamentCard] = {}
-        self.ids = collections.defaultdict(int)
-        
+        self.ids: dict[str, int] = collections.defaultdict(int)
+
     def register_card(self, card: TournamentCard) -> str:
         words = card.name.split()
         name = words[-1].lower()
         self.ids[f'{name}'] += 1
         self.cards[f'{name}_{self.ids[f"{name}"]:03d}'] = card
         card.id = f'{name}_{self.ids[f"{name}"]:03d}'
+        dic = card.get_rank_info()
         return (f'{card.name} (ID: {name}_{self.ids[f"{name}"]:03d})\n'
-                f'- Interfaces: {[cls.__name__ for cls in TournamentCard.__bases__]}\n'
-                f'- Rating: {card.rate}\n'
-                f'- Record: {card.wins}-{card.losses}\n')
+                '- Interfaces: '
+                f'{[cls.__name__ for cls in TournamentCard.__bases__]}\n'
+                f"- Rating: {dic['rating']}\n"
+                f"- Record: {dic['wins']}-{dic['losses']}\n")
 
-
-    def create_match(self, card1_id: str, card2_id: str) -> dict[str, Union[str, int]]:
+    def create_match(
+         self, card1_id: str, card2_id: str
+         ) -> dict[str, Union[str, int]]:
         dic_match: dict[str, Union[str, int]] = {}
         fighter1 = self.cards[card1_id]
         fighter2 = self.cards[card2_id]
@@ -56,19 +60,23 @@ class TournamentPlateform:
         return dic_match
 
     def get_leaderboard(self) -> list[TournamentCard]:
-        leaderboard = sorted([element for element in self.cards.values()], key= lambda element: element.rate, reverse = True)
+        leaderboard = sorted(
+            [element for element in self.cards.values()],
+            key=lambda element: element.rate, reverse=True
+            )
         return leaderboard
-    
-    def generate_tournament_report(self) -> dict[str, Union[str, int]]:
-        dic_tournament: dict[str, Union[str, int]] = {}
+
+    def generate_tournament_report(self) -> dict[str, Union[str, int, float]]:
+        dic_tournament: dict[str, Union[str, int, float]] = {}
         dic_tournament['total_cards'] = len(self.cards)
         dic_tournament['matches_played'] = self.match
         dic_tournament['avg_rating'] = (
-            sum(element.rate for element in self.cards.values()) / len(self.cards)
-        )
+            sum(
+                element.rate
+                for element in self.cards.values()) / len(self.cards)
+            )
         if self.cards:
-            dic_tournament['platform_status'] = 'active' 
+            dic_tournament['platform_status'] = 'active'
         else:
-            dic_tournament['platform_status'] = 'inactive' 
+            dic_tournament['platform_status'] = 'inactive'
         return dic_tournament
-

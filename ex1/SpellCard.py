@@ -1,4 +1,5 @@
-from ex1 import Card, CreatureCard
+from ex0.Card import Card
+from ex0.CreatureCard import CreatureCard
 from typing import Union, Any
 
 

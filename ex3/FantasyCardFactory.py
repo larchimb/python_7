@@ -1,5 +1,7 @@
-from ex1 import CreatureCard, ArtifactCard
-from ex2 import Card, SpellCard
+from ex0.Card import Card
+from ex0.CreatureCard import CreatureCard
+from ex1.ArtifactCard import ArtifactCard
+from ex1.SpellCard import SpellCard
 from .CardFactory import CardFactory
 import random
 
@@ -36,7 +38,9 @@ effects = [
 
 class FantasyCardFactory(CardFactory):
 
-    def create_creature(self, name_or_power: str | int | None = None) -> Card:
+    def create_creature(self,
+                        name_or_power: str | int | None = None
+                        ) -> CreatureCard:
         if isinstance(name_or_power, str):
             name = name_or_power
             attack = random.randint(2, 8)
@@ -58,7 +62,8 @@ class FantasyCardFactory(CardFactory):
         health = random.randint(5, 10)
         return CreatureCard(name, cost, rarity, attack, health)
 
-    def create_spell(self, name_or_power: str | int | None = None) -> Card:
+    def create_spell(self,
+                     name_or_power: str | int | None = None) -> SpellCard:
         effect_type = 'damage'
         if isinstance(name_or_power, str):
             name = name_or_power
@@ -79,7 +84,9 @@ class FantasyCardFactory(CardFactory):
             rarity = 'legendary'
         return SpellCard(name, cost, rarity, effect_type)
 
-    def create_artifact(self, name_or_power: str | int | None = None) -> Card:
+    def create_artifact(self,
+                        name_or_power: str | int | None = None
+                        ) -> ArtifactCard:
         if isinstance(name_or_power, str):
             name = name_or_power
             durability = random.randint(2, 8)
@@ -102,6 +109,7 @@ class FantasyCardFactory(CardFactory):
 
     def create_themed_deck(self, size: int) -> dict[str, Card]:
         deck: dict[str, Card] = {}
+        card: Card
         while len(deck) < size:
             nb = random.randint(0, 3)
             if nb == 0:

@@ -1,4 +1,5 @@
-from ex1 import Card, CreatureCard
+from ex0.Card import Card
+from ex0.CreatureCard import CreatureCard
 from ex1.SpellCard import SpellCard
 from ex1.ArtifactCard import ArtifactCard
 from typing import Union
@@ -32,7 +33,7 @@ class Deck():
             self.remove_card(tmp_deck[i].name)
         self.deck = tmp_deck
 
-    def draw_card(self) -> Card:
+    def draw_card(self) -> Union[Card, None]:
         try:
             if not self.deck[0]:
                 raise IndexError('The deck is empty')
@@ -41,7 +42,7 @@ class Deck():
             return temp
         except IndexError as e:
             print(e)
-            return CreatureCard('Deck empty', 0, 'NA', 0, 0)
+            return None
 
     def get_deck_stats(self) -> dict[str, Union[int, float]]:
         dic_stats: dict[str, Union[int, float]] = {}

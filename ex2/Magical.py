@@ -1,7 +1,7 @@
 from abc import abstractmethod, ABC
-from typing import Any
+from typing import Union
 from ex0 import CreatureCard
-from ex1 import SpellCard
+from ex1.SpellCard import SpellCard
 
 
 class Magical(ABC):
@@ -12,13 +12,13 @@ class Magical(ABC):
 
     @abstractmethod
     def cast_spell(self, spell_name: str, targets: list[CreatureCard]
-                   ) -> dict[Any, Any]:
+                   ) -> dict[str, Union[int, str, list[str]]]:
         pass
 
     @abstractmethod
-    def channel_mana(self, amount: int) -> dict[Any, Any]:
+    def channel_mana(self, amount: int) -> dict[str, Union[int, str]]:
         pass
 
     @abstractmethod
-    def get_magic_stats(self) -> dict[Any, Any]:
+    def get_magic_stats(self) -> dict[str, Union[int, str]]:
         pass

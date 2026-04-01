@@ -1,9 +1,9 @@
-from ex0 import CreatureCard
+from .CreatureCard import CreatureCard
 from typing import Any
 
 
 def main() -> None:
-    game_state: dict[str, dict[Any, Any]] = {
+    game_state: dict[str, dict[str, Any]] = {
         'Adri': {
             'mana': 6,
             'battlefield': [],
@@ -18,8 +18,8 @@ def main() -> None:
     print("=== DataDeck Card Foundation ===\n\n"
           "Testing Abstract Base Class Design:\n")
 
-    dragon = CreatureCard('Fire Dragon', 5, 'Legendary', 7, 5)
-    goblin = CreatureCard('Goblin Warrior', 2, 'Common', 1, 3)
+    dragon = CreatureCard('Fire Dragon', 5, 'legendary', 7, 5)
+    goblin = CreatureCard('Goblin Warrior', 2, 'common', 1, 3)
     game_state['Luc']['battlefield'].append(goblin)
     print(f"CreatureCard Info:\n{dragon.get_card_info()}")
 

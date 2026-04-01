@@ -1,8 +1,9 @@
-from ex0 import Card, CreatureCard
-from ex1 import SpellCard
+from ex0.Card import Card
+from ex0.CreatureCard import CreatureCard
+from ex1.SpellCard import SpellCard
 from ex2.Combatable import Combatable
 from ex2.Magical import Magical
-from typing import Any, Union
+from typing import Union
 
 
 class EliteCard(Card, Magical, Combatable):
@@ -20,7 +21,7 @@ class EliteCard(Card, Magical, Combatable):
         self.dic['health'] = self.health
         self.dic['mana'] = self.mana
 
-    def play(self, game_state: dict[Any, Any]) -> dict[str, Union[int, str]]:
+    def play(self, game_state: dict[str, int]) -> dict[str, Union[int, str]]:
         dic_play: dict[str, Union[int, str]] = {}
         dic_play['card_played'] = self.name
         print(f"Playing: {self.name} ({self.type})\n")
@@ -32,7 +33,8 @@ class EliteCard(Card, Magical, Combatable):
         game_state['mana'] -= self.cost
         return dic_play
 
-    def attack(self, target: Combatable) -> dict[str, Union[int, str]]:
+    def attack(
+         self, target: CreatureCard) -> dict[str, Union[int, str]]:
         dic_att: dict[str, Union[int, str]] = {}
         dic_att['attacker'] = self.name
         dic_att['target'] = target.name
@@ -63,21 +65,24 @@ class EliteCard(Card, Magical, Combatable):
         return dic_combat_stat
 
     def cast_spell(
-        self, spell_name: str, targets: list[Combatable]
+        self, spell_name: str, targets: list[CreatureCard]
     ) -> dict[str, Union[int, str, list[str]]]:
         dic_spell: dict[str, Union[str, int, list[str]]] = {}
-        spell: SpellCard = SpellCard('None', 0, 'commun', 'damage')
+        spell: SpellCard
+
         for element in self.spells:
             if element.name == spell_name:
                 spell = element
-        dic_play = spell.play(self.dic)
-        if dic_play['is_playable']:
-            spell.resolve_effect(targets)
-        dic_spell['caster'] = self.name
-        dic_spell['spell'] = spell.name
-        dic_spell['targets'] = [element.name for element in targets]
-        dic_spell['mana_used'] = spell.cost
-
+                dic_play = spell.play(self.dic)
+                if dic_play['is_playable']:
+                    spell.resolve_effect(targets)
+                dic_spell['caster'] = self.name
+                dic_spell['spell'] = spell.name
+                dic_spell['targets'] = [element.name for element in targets]
+                dic_spell['mana_used'] = spell.cost
+                break
+        if not dic_spell:
+            dic_spell['spell'] = 'No spells available'
         return dic_spell
 
     def channel_mana(self, amount: int) -> dict[str, Union[int, str]]:

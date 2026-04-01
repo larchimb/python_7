@@ -1,6 +1,6 @@
 from abc import abstractmethod, ABC
 from typing import Any
-from ex2 import Card
+from ex0.Card import Card
 
 
 class GameStrategy(ABC):

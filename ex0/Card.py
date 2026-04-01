@@ -1,11 +1,5 @@
 from abc import ABC, abstractmethod
 from typing import Union, Any
-from enum import Enum
-
-class Rarity(Enum):
-    COMMON = 'common'
-    RARE = 'rare'
-    LEGEND = 'legendary'
 
 
 class Card(ABC):
